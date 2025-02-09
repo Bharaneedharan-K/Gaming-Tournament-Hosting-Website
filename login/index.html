@@ -3,30 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Register</title>
+    <title>Card Flip Animation</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div class="container">
         <!-- Login Card -->
-        <div class="card login-card" id="loginCard">
+        <div class="card" id="loginCard">
             <h2>LOGIN</h2>
             <input type="text" class="input-box" placeholder="User ID" required>
+            <input type="email" class="input-box" placeholder="Email ID" required>
             <input type="password" class="input-box" placeholder="Password" required>
             <button class="submit-btn">Login</button>
+            <p>Forgot your password? <span onclick="showForgotPassword()">Reset Password</span></p>
             <p>Don't have an account? <span onclick="showRegister()">Register</span></p>
         </div>
 
         <!-- Register Card -->
-        <div class="card register-card" id="registerCard">
+        <div class="card" id="registerCard">
             <h2>REGISTER</h2>
             <input type="text" class="input-box" placeholder="Full Name" required>
-            <input type="text" class="input-box" placeholder="User ID" required>
+            <input type="email" class="input-box" placeholder="Email ID" required>
             <input type="password" class="input-box" placeholder="Password" required>
             <input type="password" class="input-box" placeholder="Confirm Password" required>
             <button class="submit-btn">Register</button>
             <p>Already have an account? <span onclick="showLogin()">Login</span></p>
+        </div>
+
+        <!-- Forgot Password Card -->
+        <div class="card" id="forgotPasswordCard">
+            <h2>FORGOT PASSWORD</h2>
+            <input type="text" class="input-box" placeholder="User ID" required>
+            <input type="email" class="input-box" placeholder="Email ID" required>
+            <input type="password" class="input-box" placeholder="New Password" required>
+            <input type="password" class="input-box" placeholder="Confirm New Password" required>
+            <button class="submit-btn">Reset Password</button>
+            <p><span onclick="showLogin()">Back to Login</span></p>
         </div>
     </div>
 
