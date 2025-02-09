@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Login Card -->
+        <div class="card login-card" id="loginCard">
+            <h2>LOGIN</h2>
+            <input type="text" class="input-box" placeholder="User ID" required>
+            <input type="password" class="input-box" placeholder="Password" required>
+            <button class="submit-btn">Login</button>
+            <p>Don't have an account? <span onclick="showRegister()">Register</span></p>
+        </div>
+
+        <!-- Register Card -->
+        <div class="card register-card" id="registerCard">
+            <h2>REGISTER</h2>
+            <input type="text" class="input-box" placeholder="Full Name" required>
+            <input type="text" class="input-box" placeholder="User ID" required>
+            <input type="password" class="input-box" placeholder="Password" required>
+            <input type="password" class="input-box" placeholder="Confirm Password" required>
+            <button class="submit-btn">Register</button>
+            <p>Already have an account? <span onclick="showLogin()">Login</span></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
