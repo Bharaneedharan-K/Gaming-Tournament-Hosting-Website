@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <!-- Forgot Password Card -->
     <div class="card" id="forgotPasswordCard">
-        <br></br>
+    <br></br>
         <h2>FORGOT PASSWORD</h2>
         <form method="POST">
             <input type="hidden" name="action" value="reset_password">
