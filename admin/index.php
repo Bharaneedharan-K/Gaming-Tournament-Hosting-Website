@@ -11,7 +11,7 @@
     <h2>Game Menu</h2>
     <ul>
       <li><a href="index.php">Home</a></li>
-      <li><a href="game_list.php">Add Game</a></li>
+      <li><a href="addGame/game_list.php">Add Game</a></li>
     </ul>
   </div>
 
