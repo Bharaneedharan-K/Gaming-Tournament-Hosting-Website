@@ -14,15 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = $_POST['email'];
             $password = $_POST['password'];
             $confirmPassword = $_POST['confirm_password'];
-
+        
             if ($password !== $confirmPassword) {
                 $message = "Passwords do not match.";
                 $messageType = "error";
                 break;
             }
-
+        
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
+        
             $stmt = $pdo->prepare("INSERT INTO users (user_id, full_name, email, password) VALUES (?, ?, ?, ?)");
             try {
                 $stmt->execute([$userId, $fullName, $email, $hashedPassword]);
@@ -30,13 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $messageType = "success";
             } catch (PDOException $e) {
                 if ($e->getCode() == 23000) {
-                    $message = "User ID or Email already exists. Please choose a different one.";
+                    $message = "User ID or Email already exists.";
                 } else {
                     $message = "Error: " . $e->getMessage();
                 }
                 $messageType = "error";
             }
             break;
+        
 
             case 'login':
                 $userId = $_POST['user_id'];
@@ -125,6 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
     <script>
+        
         // Show notification and auto-hide after 3 seconds
         function showNotification(message, type) {
             const notification = document.createElement("div");
