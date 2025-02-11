@@ -1,5 +1,6 @@
 <?php
   // This is a simple structure for demonstration purposes
+  include '../user_id.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +33,7 @@
       background-color: #1e1e1e;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       padding: 20px;
       gap: 20px;
       box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
@@ -41,6 +43,12 @@
 
     .sidebar:hover {
       box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.7);
+    }
+
+    .sidebar .nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
 
     .sidebar .logo {
@@ -70,6 +78,59 @@
       transform: translateX(8px);
     }
 
+    .logout-section {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .logout-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: #333333;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+
+    .logout-toggle:hover {
+      background-color: #444444;
+    }
+
+    .logout-dropdown {
+      display: none;
+      flex-direction: column;
+      background: #1e1e1e;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+      margin-top: 5px;
+    }
+
+    .logout-section:hover .logout-dropdown {
+      display: flex;
+    }
+
+    .logout-option {
+      color: #ffffff;
+      cursor: pointer;
+      padding: 5px;
+      transition: color 0.3s;
+    }
+
+    .logout-option:hover {
+      color: #ff5252;
+    }
+
+    .logout-icon {
+      width: 24px;
+      height: 24px;
+      background: url('https://img.icons8.com/ios-filled/50/ffffff/logout-rounded-left.png') no-repeat center;
+      background-size: cover;
+    }
+
     .content {
       margin-left: 280px;
       padding: 40px;
@@ -84,11 +145,25 @@
 <body>
 
   <div class="sidebar">
-    <a href="#" class="logo" onclick="scrollToTop()">EpicClash</a>
-    <a href="#">Home</a>
-    <a href="#">Search Tournament</a>
-    <a href="#">My Tournaments</a>
-    <a href="#">Create Tournament</a>
+  <div class="nav-links">
+    <a href="index.php" class="logo" onclick="scrollToTop()">EpicClash</a>
+    <a href="index.php">Home</a>
+    <a href="search_tournament.php">Search Tournament</a>
+    <a href="my_tournaments.php">My Tournaments</a>
+    <a href="create_tournament.php">Create Tournament</a>
+    <a href="history.php">History</a>
+  </div>
+
+
+    <div class="logout-section">
+      <div class="logout-toggle">
+        <div class="logout-icon"></div>
+        <span><?php echo htmlspecialchars($currentUserName); ?></span>
+      </div>
+      <div class="logout-dropdown">
+        <div class="logout-option" onclick="handleLogout()">Logout</div>
+      </div>
+    </div>
   </div>
 
   <div class="content">
@@ -100,6 +175,10 @@
   <script>
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleLogout() {
+      window.location.href = '../../login/index.php';
     }
   </script>
 
