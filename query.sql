@@ -10,4 +10,9 @@ CREATE TABLE users (
 );
 
 
+CREATE TABLE IF NOT EXISTS game_list (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    game_name VARCHAR(255) NOT NULL,
+    game_image LONGBLOB NOT NULL
+);
 
