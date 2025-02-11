@@ -38,22 +38,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
             break;
 
-        case 'login':
-            $userId = $_POST['user_id'];
-            $password = $_POST['password'];
-
-            $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id = ?");
-            $stmt->execute([$userId]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user && password_verify($password, $user['password'])) {
-                header("Location: home.html");
-                exit();
-            } else {
-                $message = "Invalid user ID or password.";
-                $messageType = "error";
-            }
-            break;
+            case 'login':
+                $userId = $_POST['user_id'];
+                $password = $_POST['password'];
+            
+                $stmt = $pdo->prepare("SELECT * FROM users WHERE user_id = ?");
+                $stmt->execute([$userId]);
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+                if ($user && password_verify($password, $user['password'])) {
+                    $userName = $user['full_name'];
+                    
+                    // Store both user ID and name in user_id.php
+                    file_put_contents('../user/user_id.php', "<?php\n\$currentUserId = '$userId';\n\$currentUserName = '$userName';\n?>");
+                
+                    // Redirect to home page
+                    header("Location: ../user/home/index.php");
+                    exit();
+                }
+                else {
+                    $message = "Invalid user ID or password.";
+                    $messageType = "error";
+                }
+                break;
+            
 
         case 'reset_password':
             $userId = $_POST['user_id'];
