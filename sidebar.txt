@@ -184,3 +184,9 @@
 
 </body>
 </html>
+
+
+      <img src="amoung_us.png" class="active" alt="Banner 1">
+      <img src="freefire.png" alt="Banner 2">
+      <img src="mindcraft.png" alt="Banner 3">
+      <img src="bgmi.png" alt="Banner 4">

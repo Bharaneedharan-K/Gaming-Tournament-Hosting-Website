@@ -123,7 +123,6 @@
     .logout-option:hover {
       color: #ff5252;
     }
-
     .logout-icon {
       width: 24px;
       height: 24px;
@@ -137,24 +136,41 @@
       flex: 1;
     }
 
-    .scroll-top {
-      display: none;
+    .banner {
+      width: 95%; /* Adjust the width percentage or use a fixed value */
+      max-width: 1400px; /* Reduce from 1200px to 900px */
+      height: 250px; /* Reduce from 400px to 300px */
+      overflow: hidden;
+      position: relative;
+      border-radius: 16px;
+      box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+    }
+
+
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .banner img.active {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
-
   <div class="sidebar">
-  <div class="nav-links">
-    <a href="index.php" class="logo" onclick="scrollToTop()">EpicClash</a>
-    <a href="index.php">Home</a>
-    <a href="search_tournament.php">Search Tournament</a>
-    <a href="my_tournaments.php">My Tournaments</a>
-    <a href="create_tournament.php">Create Tournament</a>
-    <a href="history.php">History</a>
-  </div>
-
-
+    <div class="nav-links">
+      <a href="index.php" class="logo" onclick="scrollToTop()">EpicClash</a>
+      <a href="index.php">Home</a>
+      <a href="search_tournament.php">Search Tournament</a>
+      <a href="my_tournaments.php">My Tournaments</a>
+      <a href="create_tournament.php">Create Tournament</a>
+      <a href="history.php">History</a>
+    </div>
     <div class="logout-section">
       <div class="logout-toggle">
         <div class="logout-icon"></div>
@@ -167,9 +183,13 @@
   </div>
 
   <div class="content">
-    <h1>Welcome to EpicClash</h1>
-    <p>This is a sample content section to demonstrate a floating sidebar with navigation links.</p>
-    <p>Scroll to test the "back to top" feature by clicking the EpicClash logo.</p>
+    
+    <div class="banner">
+    <img src="src/amoung_us.png" class="active" alt="Banner 1">
+      <img src="src/freefire.png" alt="Banner 2">
+      <img src="src/mindcraft.png" alt="Banner 3">
+      <img src="src/bgmi.png" alt="Banner 4">
+    </div>
   </div>
 
   <script>
@@ -180,7 +200,17 @@
     function handleLogout() {
       window.location.href = '../../login/index.php';
     }
-  </script>
 
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.banner img');
+    
+    function showNextImage() {
+      images[currentIndex].classList.remove('active');
+      currentIndex = (currentIndex + 1) % images.length;
+      images[currentIndex].classList.add('active');
+    }
+    
+    setInterval(showNextImage, 3000);
+  </script>
 </body>
 </html>
