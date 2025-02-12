@@ -168,7 +168,7 @@
       <a href="index.php">Home</a>
       <a href="search_tournament.php">Search Tournament</a>
       <a href="my_tournaments.php">My Tournaments</a>
-      <a href="create_tournament.php">Create Tournament</a>
+      <a href="../createTournament/create_tournament.php">Create Tournament</a>
       <a href="history.php">History</a>
     </div>
     <div class="logout-section">
