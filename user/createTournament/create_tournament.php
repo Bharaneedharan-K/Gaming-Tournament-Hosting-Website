@@ -215,11 +215,17 @@
     .modal-content h2 {
     text-align: center;
     color: white;
-  }
+  }`
   .form-container {
-    display: flex;
-    gap: 15px;
-  }
+        display: flex;
+        gap: 20px;
+    }
+    .form-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
   .form-left, .form-right {
     flex: 1;
     display: flex;
@@ -227,23 +233,17 @@
     gap: 10px;
   }
   .image-upload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-.upload-label {
-  width: 50px;
-  height: 50px;
-  background-color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s;
-}
+    .upload-label {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
 .upload-label:hover {
   background-color: #444;
@@ -272,6 +272,13 @@
   object-fit: cover;
   display: none;
 }
+.image-preview {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 2px dashed #ccc;
+        margin-bottom: 10px;
+    }
 
   
   </style>
@@ -301,51 +308,53 @@
 
   <div class="content">
     <button class="create-tournament-btn" onclick="document.getElementById('tournament-modal').style.display='block'">+ Create Tournament</button>
+    
     <div id="tournament-modal" class="modal">
-      <div class="modal-content">
-        <h2>Create Tournament</h2>
-        <br></br>
-        <div class="form-container">
-          <div class="form-left">
-            <input type="text" placeholder="Tournament Name">
-            <input type="text" placeholder="Tournament ID">
-            <input type="date" placeholder="Date">
-            <input type="text" placeholder="Contact Info (Mail/Phone)">
-            <input type="text" placeholder="Game Name">
-            <input type="number" placeholder="No. of Players">
-            <label>Team Size</label>
-            <input type="number" value="1">
-          </div>
-          <div class="form-right">
-          <div class="image-upload">
-            <input type="file" id="tournament-image" accept="image/*" onchange="previewImage(event)" hidden>
-            
-            <div class="image-preview-box">
-              <img id="image-preview" src="#" alt="Image Preview" style="display:none;">
-            </div>
-            <label for="tournament-image" class="upload-label">
-              <img src="https://img.icons8.com/ios-filled/50/ffffff/upload.png" alt="Upload Icon">
-            </label>
-          </div>
+        <div class="modal-content">
+            <h2>Create Tournament</h2>
+            <br>
 
-            <select id="fee-type" onchange="togglePrizeFields()">
-              <option value="free">Free</option>
-              <option value="paid">Paid</option>
-            </select>
-            <div id="prize-fields" style="display: none;">
-              <input type="text" placeholder="Top 1 Prize">
-              <input type="text" placeholder="Top 2 Prize">
-              <input type="text" placeholder="Top 3 Prize">
-            </div>
-            <input type="text" placeholder="UPI ID">
-          </div>
+            <form id="tournament-form" action="save_tournament.php" method="POST" enctype="multipart/form-data">
+                <div class="form-container">
+                    <div class="form-column">
+                        <input type="text" name="tournament_name" placeholder="Tournament Name" required>
+                        
+                        <input type="date" name="tournament_date" required>
+                        <input type="text" name="contact_info" placeholder="Contact Info (Mail/Phone)" required>
+                        <input type="text" name="game_name" placeholder="Game Name" required>
+                        <input type="number" name="num_players" placeholder="No. of Players" required min="1">
+                        <label>Team Size</label>
+                        <input type="number" name="team_size" value="1" required min="1">
+                    </div>
+
+                    <div class="form-column">
+                        <div class="image-upload">
+                            <label for="tournament_image" class="upload-label">
+                                <img id="image-preview" src="placeholder.png" alt="Preview" class="image-preview">
+                                <input type="file" id="tournament_image" name="tournament_image" accept="image/*" required onchange="previewImage(event)">
+                            </label>
+                        </div>
+                        
+                        <select name="fee_type" id="fee-type" required onchange="togglePrizeFields()">
+                            <option value="" disabled selected>Select Fee Type</option>
+                            <option value="free">Free</option>
+                            <option value="paid">Paid</option>
+                        </select>
+
+                        <div id="prize-fields" style="display: none;">
+                            <input type="text" name="top_1_prize" id="prize-1" placeholder="Top 1 Prize">
+                            <input type="text" name="top_2_prize" id="prize-2" placeholder="Top 2 Prize">
+                            <input type="text" name="top_3_prize" id="prize-3" placeholder="Top 3 Prize">
+                        </div>
+                        
+                        <input type="text" name="upi_id" placeholder="UPI ID" required>
+                        <button type="submit">Create</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <button onclick="closeModal()">Create</button>
-      </div>
     </div>
-
-  </div>
-
+</div>
   <script>
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -354,22 +363,43 @@
     function handleLogout() {
       window.location.href = '../../login/index.php';
     }
-    function previewImage(event) {
-    const preview = document.getElementById('image-preview');
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-      };
-      reader.readAsDataURL(file);
+
+    function validateForm() {
+        let requiredFields = document.querySelectorAll("#tournament-form input[required], #tournament-form select[required]");
+        for (let field of requiredFields) {
+            if (!field.value.trim()) {
+                alert("Please fill all required fields.");
+                field.focus();
+                return false;
+            }
+        }
+        return true;
     }
-  }
+
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('image-preview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
   function togglePrizeFields() {
-    const feeType = document.getElementById('fee-type').value;
-    document.getElementById('prize-fields').style.display = feeType === 'paid' ? 'block' : 'none';
-  }
+    let feeType = document.getElementById("fee-type").value;
+    let prizeFields = document.getElementById("prize-fields");
+    
+    if (feeType === "paid") {
+        prizeFields.style.display = "block";
+        document.getElementById("prize-1").setAttribute("required", "true");
+        document.getElementById("prize-2").setAttribute("required", "true");
+        document.getElementById("prize-3").setAttribute("required", "true");
+    } else {
+        prizeFields.style.display = "none";
+        document.getElementById("prize-1").removeAttribute("required");
+        document.getElementById("prize-2").removeAttribute("required");
+        document.getElementById("prize-3").removeAttribute("required");
+    }
+}
   function closeModal() {
     document.getElementById('tournament-modal').style.display = 'none';
   }
