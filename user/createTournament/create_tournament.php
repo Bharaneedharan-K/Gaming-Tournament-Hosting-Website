@@ -226,14 +226,54 @@
     flex-direction: column;
     gap: 10px;
   }
-  .image-upload label {
-    color: white;
-  }
-  #image-preview {
-    width: 100%;
-    border-radius: 8px;
-    margin-top: 10px;
-  }
+  .image-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.upload-label {
+  width: 50px;
+  height: 50px;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.upload-label:hover {
+  background-color: #444;
+}
+
+.upload-label img {
+  width: 30px;
+  height: 30px;
+}
+
+.image-preview-box {
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #ffffff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+  
   </style>
 </head>
 <body>
@@ -262,40 +302,47 @@
   <div class="content">
     <button class="create-tournament-btn" onclick="document.getElementById('tournament-modal').style.display='block'">+ Create Tournament</button>
     <div id="tournament-modal" class="modal">
-  <div class="modal-content">
-    <h2>Create Tournament</h2>
-    <div class="form-container">
-      <div class="form-left">
-        <input type="text" placeholder="Tournament Name">
-        <input type="text" placeholder="Tournament ID">
-        <input type="date" placeholder="Date">
-        <input type="text" placeholder="Contact Info (Mail/Phone)">
-        <input type="text" placeholder="Game Name">
-        <input type="number" placeholder="No. of Players">
-        <label>Team Size</label>
-        <input type="number" value="1">
-      </div>
-      <div class="form-right">
-        <div class="image-upload">
-          <label for="tournament-image">Upload Image</label>
-          <input type="file" id="tournament-image" accept="image/*" onchange="previewImage(event)">
-          <img id="image-preview" src="#" alt="Image Preview" style="display:none;">
+      <div class="modal-content">
+        <h2>Create Tournament</h2>
+        <br></br>
+        <div class="form-container">
+          <div class="form-left">
+            <input type="text" placeholder="Tournament Name">
+            <input type="text" placeholder="Tournament ID">
+            <input type="date" placeholder="Date">
+            <input type="text" placeholder="Contact Info (Mail/Phone)">
+            <input type="text" placeholder="Game Name">
+            <input type="number" placeholder="No. of Players">
+            <label>Team Size</label>
+            <input type="number" value="1">
+          </div>
+          <div class="form-right">
+          <div class="image-upload">
+            <input type="file" id="tournament-image" accept="image/*" onchange="previewImage(event)" hidden>
+            
+            <div class="image-preview-box">
+              <img id="image-preview" src="#" alt="Image Preview" style="display:none;">
+            </div>
+            <label for="tournament-image" class="upload-label">
+              <img src="https://img.icons8.com/ios-filled/50/ffffff/upload.png" alt="Upload Icon">
+            </label>
+          </div>
+
+            <select id="fee-type" onchange="togglePrizeFields()">
+              <option value="free">Free</option>
+              <option value="paid">Paid</option>
+            </select>
+            <div id="prize-fields" style="display: none;">
+              <input type="text" placeholder="Top 1 Prize">
+              <input type="text" placeholder="Top 2 Prize">
+              <input type="text" placeholder="Top 3 Prize">
+            </div>
+            <input type="text" placeholder="UPI ID">
+          </div>
         </div>
-        <select id="fee-type" onchange="togglePrizeFields()">
-          <option value="free">Free</option>
-          <option value="paid">Paid</option>
-        </select>
-        <div id="prize-fields" style="display: none;">
-          <input type="text" placeholder="Top 1 Prize">
-          <input type="text" placeholder="Top 2 Prize">
-          <input type="text" placeholder="Top 3 Prize">
-        </div>
-        <input type="text" placeholder="UPI ID">
+        <button onclick="closeModal()">Create</button>
       </div>
     </div>
-    <button onclick="closeModal()">Create</button>
-  </div>
-</div>
 
   </div>
 
