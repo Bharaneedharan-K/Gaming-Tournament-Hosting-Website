@@ -280,6 +280,61 @@
         margin-bottom: 10px;
     }
 
+/* ----------- */
+
+    .tournament-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    margin-top: 20px;
+}
+
+.tournament-card {
+    width: 250px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tournament-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+}
+
+.tournament-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.tournament-info {
+    padding: 15px;
+    text-align: center;
+    color: white;
+}
+
+.tournament-info h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #ff9800;
+}
+
+.tournament-info p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #ccc;
+}
+
+.close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        cursor: pointer;
+    }
   
   </style>
 </head>
@@ -311,6 +366,7 @@
     
     <div id="tournament-modal" class="modal">
         <div class="modal-content">
+        <span class="close-button" onclick="closeModal()">&times;</span>
             <h2>Create Tournament</h2>
             <br>
 
@@ -354,6 +410,9 @@
             </form>
         </div>
     </div>
+    <br>
+    <br>
+    <?php include 'tournamentCard.php'; ?>
 </div>
   <script>
     function scrollToTop() {
@@ -400,7 +459,7 @@
         document.getElementById("prize-3").removeAttribute("required");
     }
 }
-  function closeModal() {
+function closeModal() {
     document.getElementById('tournament-modal').style.display = 'none';
   }
   </script>
