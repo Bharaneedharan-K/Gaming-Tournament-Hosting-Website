@@ -1,0 +1,79 @@
+/* Custom Styles */
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    background-color: #2d2d2d !important;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00ff00 !important;
+}
+
+.nav-link {
+    color: #ffffff !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #00ff00 !important;
+}
+
+/* Card Styles */
+.card {
+    background-color: #2d2d2d;
+    border: 1px solid #3d3d3d;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    color: #ffffff;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,255,0,0.1);
+}
+
+.card-header {
+    background-color: #3d3d3d;
+    border-bottom: 1px solid #4d4d4d;
+    color: #ffffff;
+}
+
+.card-title {
+    color: #ffffff;
+}
+
+.card-text {
+    color: #ffffff;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #00ff00;
+    border-color: #00ff00;
+    color: #000000;
+}
+
+.btn-primary:hover {
+    background-color: #00cc00;
+    border-color: #00cc00;
+    color: #000000;
+}
+
+.btn-outline-light {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.btn-outline-light:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
