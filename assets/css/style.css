@@ -61,20 +61,4 @@ body {
     color: #000000;
 }
 
-.btn-primary:hover {
-    background-color: #00cc00;
-    border-color: #00cc00;
-    color: #000000;
-}
-
-.btn-outline-light {
-    color: #ffffff;
-    border-color: #ffffff;
-}
-
-
-.btn-outline-light:hover {
-    background-color: #ffffff;
-    color: #000000;
-}
 
