@@ -19,7 +19,65 @@ $user_points = $stmt->fetch(PDO::FETCH_ASSOC)['points'];
 $error = '';
 $success = '';
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $tournament_name = trim($_POST['tournament_name']);
+    $game_name = $_POST['game_name'];
+    $tournament_date = $_POST['tournament_date'];
+    $max_players = (int)$_POST['max_players'];
+    $is_team_based = isset($_POST['is_team_based']) ? 1 : 0;
+    $team_size = $is_team_based ? (int)$_POST['team_size'] : null;
+    $max_teams = $is_team_based ? (int)$_POST['max_teams'] : null;
+    $room_id = trim($_POST['room_id']);
+    $room_password = trim($_POST['room_password']);
+    $is_paid = isset($_POST['is_paid']) ? 1 : 0;
+    $registration_fee = $is_paid ? (float)$_POST['registration_fee'] : null;
+    $winning_prize = $is_paid ? (float)$_POST['winning_prize'] : null;
+    $upi_id = $is_paid ? trim($_POST['upi_id']) : null;
+    $contact_info = trim($_POST['contact_info']);
+    $auto_approval = isset($_POST['auto_approval']) ? 1 : 0;
 
+    // Validate input
+    if (empty($tournament_name) || empty($game_name) || empty($tournament_date) || empty($max_players)) {
+        $error = "Required fields cannot be empty";
+    } elseif ($is_team_based && (empty($team_size) || empty($max_teams))) {
+        $error = "Team size and max teams are required for team-based tournaments";
+    } elseif ($is_paid) {
+        if ($user_points < 1000) {
+            $error = "You need at least 1000 points to create a paid tournament";
+        } elseif (empty($registration_fee) || empty($winning_prize) || empty($upi_id)) {
+            $error = "Registration fee, winning prize, and UPI ID are required for paid tournaments";
+        } else {
+            // Insert tournament
+            $stmt = $db->prepare("INSERT INTO tournaments (owner_id, tournament_name, game_name, tournament_date, 
+                max_players, is_team_based, team_size, max_teams, room_id, room_password, is_paid, 
+                registration_fee, winning_prize, upi_id, contact_info, auto_approval) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            
+            if ($stmt->execute([$_SESSION['user_id'], $tournament_name, $game_name, $tournament_date, 
+                $max_players, $is_team_based, $team_size, $max_teams, $room_id, $room_password, 
+                $is_paid, $registration_fee, $winning_prize, $upi_id, $contact_info, $auto_approval])) {
+                $success = "Tournament created successfully!";
+            } else {
+                $error = "Failed to create tournament. Please try again.";
+            }
+        }
+    } else {
+        // Insert tournament for free tournaments
+        $stmt = $db->prepare("INSERT INTO tournaments (owner_id, tournament_name, game_name, tournament_date, 
+            max_players, is_team_based, team_size, max_teams, room_id, room_password, is_paid, 
+            registration_fee, winning_prize, upi_id, contact_info, auto_approval) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        
+        if ($stmt->execute([$_SESSION['user_id'], $tournament_name, $game_name, $tournament_date, 
+            $max_players, $is_team_based, $team_size, $max_teams, $room_id, $room_password, 
+            $is_paid, $registration_fee, $winning_prize, $upi_id, $contact_info, $auto_approval])) {
+            $success = "Tournament created successfully!";
+        } else {
+            $error = "Failed to create tournament. Please try again.";
+        }
+    }
+}
+?>
 
 <div class="row justify-content-center">
     <div class="col-md-8">
