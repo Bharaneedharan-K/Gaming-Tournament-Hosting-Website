@@ -7,6 +7,43 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+$database = new Database();
+$db = $database->getConnection();
+
+// Get user info
+$stmt = $db->prepare("SELECT * FROM users WHERE user_id = ?");
+$stmt->execute([$_SESSION['user_id']]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Get tournaments created by user
+$stmt = $db->prepare("SELECT t.*, 
+                    (SELECT COUNT(*) FROM tournament_participants WHERE tournament_id = t.tournament_id) as current_participants
+                    FROM tournaments t 
+                    WHERE t.owner_id = ? 
+                    ORDER BY t.created_at DESC");
+$stmt->execute([$_SESSION['user_id']]);
+$created_tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Get tournaments joined by user
+$stmt = $db->prepare("SELECT t.*, tp.is_approved, tp.team_name, tp.transaction_id,
+                    (SELECT COUNT(*) FROM tournament_participants WHERE tournament_id = t.tournament_id) as current_participants
+                    FROM tournaments t 
+                    JOIN tournament_participants tp ON t.tournament_id = tp.tournament_id 
+                    WHERE tp.user_id = ? 
+                    ORDER BY t.tournament_date DESC");
+$stmt->execute([$_SESSION['user_id']]);
+$joined_tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Get tournaments won by user
+$stmt = $db->prepare("SELECT t.*, tw.position, tp.team_name
+                    FROM tournaments t 
+                    JOIN tournament_winners tw ON t.tournament_id = tw.tournament_id 
+                    JOIN tournament_participants tp ON tw.user_id = tp.user_id AND tw.tournament_id = tp.tournament_id
+                    WHERE tw.user_id = ? 
+                    ORDER BY t.tournament_date DESC");
+$stmt->execute([$_SESSION['user_id']]);
+$won_tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <div class="row">
     <div class="col-md-4">
