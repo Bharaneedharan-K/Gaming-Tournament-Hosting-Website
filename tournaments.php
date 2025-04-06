@@ -4,6 +4,108 @@ require_once 'includes/header.php';
 
 
 
+<style>
+.tournament-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+    border: none !important;
+    overflow: hidden;
+}
+
+.tournament-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+}
+
+.tournament-image {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.tournament-info p {
+    padding: 10px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    margin-bottom: 12px !important;
+    border: 1px solid rgba(13, 110, 253, 0.2);
+    transition: all 0.3s;
+}
+
+.tournament-info p:hover {
+    background: rgba(13, 110, 253, 0.1);
+    border-color: rgba(13, 110, 253, 0.4);
+}
+
+.form-control, .form-select {
+    height: 45px;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    border-color: #0d6efd;
+}
+
+.btn-primary {
+    background: linear-gradient(145deg, #0d6efd 0%, #0a58ca 100%);
+    border: none;
+    transition: all 0.3s;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+.card-header {
+    background: linear-gradient(145deg, #212529 0%, #343a40 100%) !important;
+    border-bottom: 2px solid #0d6efd;
+    padding: 1.2rem;
+}
+
+.alert {
+    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+    border: 1px solid #0d6efd;
+    padding: 20px;
+}
+
+.input-group-text {
+    min-width: 46px;
+    justify-content: center;
+}
+
+.tournament-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.tournament-title {
+    color: white;
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    padding: 15px;
+    background: linear-gradient(145deg, #212529 0%, #343a40 100%);
+    border-bottom: 2px solid #0d6efd;
+}
+
+.filter-section {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(13, 110, 253, 0.2);
+    margin-bottom: 30px;
+}
+</style>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card mb-4">
