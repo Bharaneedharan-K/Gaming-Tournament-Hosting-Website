@@ -2,7 +2,60 @@
 require_once 'config/database.php';
 require_once 'includes/header.php';
 
+$database = new Database();
+$db = $database->getConnection();
 
+// Define game images mapping with URLs
+$game_images = [
+    'among us' => 'https://www.innersloth.com/wp-content/uploads/2024/06/2024roles_nologo.png',
+    'minecraft' => 'https://m.economictimes.com/thumb/msid-98433841,width-1600,height-900,resizemode-4,imgsize-12430/minecraft-mods-how-to-install.jpg',
+    'free fire' => 'https://static-cdn.jtvnw.net/jtv_user_pictures/43aa2943-730e-427c-bcec-6cdef4d4c4d1-profile_banner-480.jpeg',
+    'bgmi' => 'https://images.firstpost.com/wp-content/uploads/2022/07/Explained-Why-Google-and-Apple-removed-BGMI-from-their-respective-app-stores-2-years-after-PUBG-ban-2.jpg'
+];
+
+// Get filter parameters
+$game_filter = isset($_GET['game']) ? $_GET['game'] : '';
+$type_filter = isset($_GET['type']) ? $_GET['type'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Build query
+$query = "SELECT t.*, u.username as owner_name, 
+          (SELECT COUNT(*) FROM tournament_participants WHERE tournament_id = t.tournament_id) as current_participants
+          FROM tournaments t 
+          JOIN users u ON t.owner_id = u.user_id 
+          WHERE t.status = 'active'";
+
+$params = [];
+
+if ($game_filter) {
+    $query .= " AND t.game_name = ?";
+    $params[] = $game_filter;
+}
+
+if ($type_filter) {
+    if ($type_filter === 'paid') {
+        $query .= " AND t.is_paid = 1";
+    } else if ($type_filter === 'free') {
+        $query .= " AND t.is_paid = 0";
+    }
+}
+
+if ($search) {
+    $query .= " AND (t.tournament_name LIKE ? OR t.game_name LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+}
+
+$query .= " ORDER BY t.tournament_date ASC";
+
+$stmt = $db->prepare($query);
+$stmt->execute($params);
+$tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Get unique games for filter
+$stmt = $db->query("SELECT DISTINCT game_name FROM tournaments WHERE status = 'active' ORDER BY game_name");
+$games = $stmt->fetchAll(PDO::FETCH_COLUMN);
+?>
 
 <style>
 .tournament-card {
