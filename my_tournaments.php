@@ -1,4 +1,44 @@
+<?php
+require_once 'config/database.php';
+require_once 'includes/header.php';
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+// Get filter parameters
+$status_filter = isset($_GET['status']) ? $_GET['status'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Build query
+$query = "SELECT t.*, 
+          (SELECT COUNT(*) FROM tournament_participants WHERE tournament_id = t.tournament_id) as current_participants
+          FROM tournaments t 
+          WHERE t.owner_id = ?";
+
+$params = [$_SESSION['user_id']];
+
+if ($status_filter) {
+    $query .= " AND t.status = ?";
+    $params[] = $status_filter;
+}
+
+if ($search) {
+    $query .= " AND (t.tournament_name LIKE ? OR t.game_name LIKE ?)";
+    $params[] = "%$search%";
+    $params[] = "%$search%";
+}
+
+$query .= " ORDER BY t.created_at DESC";
+
+$stmt = $db->prepare($query);
+$stmt->execute($params);
+$tournaments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
 <style>
 .card {
