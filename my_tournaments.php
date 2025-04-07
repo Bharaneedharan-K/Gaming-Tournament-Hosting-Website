@@ -1,5 +1,125 @@
 
 
+<style>
+.card {
+    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.card-header {
+    background: linear-gradient(145deg, #212529 0%, #343a40 100%) !important;
+    border-bottom: 2px solid #0d6efd;
+    padding: 1.2rem;
+}
+
+.table-dark {
+    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-dark thead th {
+    background: linear-gradient(145deg, #212529 0%, #343a40 100%);
+    border-bottom: 2px solid #0d6efd;
+    padding: 15px;
+}
+
+.table-dark tbody tr {
+    transition: all 0.3s;
+}
+
+.table-dark tbody tr:hover {
+    background: rgba(13, 110, 253, 0.1);
+    transform: scale(1.01);
+}
+
+.btn-group .btn {
+    margin: 0 2px;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.btn-group .btn:hover {
+    transform: translateY(-2px);
+    z-index: 2;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+    border-color: #0d6efd;
+}
+
+.btn-primary {
+    background: linear-gradient(145deg, #0d6efd 0%, #0a58ca 100%);
+    border: none;
+    transition: all 0.3s;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+}
+
+.alert {
+    background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%) !important;
+    border: 1px solid #0d6efd;
+    padding: 20px;
+}
+
+.badge {
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.filter-section {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(13, 110, 253, 0.2);
+    margin-bottom: 30px;
+}
+
+.tournament-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.btn-group .btn {
+    padding: 8px 12px;
+}
+
+.btn-group .btn i {
+    font-size: 1rem;
+}
+
+.input-group {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input-group-text {
+    min-width: 46px;
+    justify-content: center;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.status-active {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+</style>
 
 <div class="row">
     <div class="col-md-12">
