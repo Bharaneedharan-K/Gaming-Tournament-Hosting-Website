@@ -1,4 +1,110 @@
+<?php
+require_once 'config/database.php';
+require_once 'includes/header.php';
 
+if (!isset($_GET['id'])) {
+    header("Location: index.php");
+    exit();
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+// Get tournament details
+$stmt = $db->prepare("SELECT t.*, u.username as owner_name, 
+                    (SELECT COUNT(*) FROM tournament_participants WHERE tournament_id = t.tournament_id) as current_participants
+                    FROM tournaments t 
+                    JOIN users u ON t.owner_id = u.user_id 
+                    WHERE t.tournament_id = ?");
+$stmt->execute([$_GET['id']]);
+$tournament = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$tournament) {
+    header("Location: index.php");
+    exit();
+}
+
+$error = '';
+$success = '';
+
+// Handle join request
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id'])) {
+    $transaction_id = isset($_POST['transaction_id']) ? trim($_POST['transaction_id']) : null;
+    $team_name = isset($_POST['team_name']) ? trim($_POST['team_name']) : null;
+
+    // Validate paid tournament requirements first
+    if ($tournament['is_paid'] && empty($transaction_id)) {
+        $error = "Transaction ID is required for paid tournaments";
+    }
+
+    // Validate team-based requirements
+    if ($tournament['is_team_based'] && empty($team_name)) {
+        $error = "Team name is required for team-based tournaments";
+    }
+
+    // Check if already joined
+    if (empty($error)) {
+        $stmt = $db->prepare("SELECT participant_id FROM tournament_participants 
+                            WHERE tournament_id = ? AND user_id = ?");
+        $stmt->execute([$_GET['id'], $_SESSION['user_id']]);
+        if ($stmt->rowCount() > 0) {
+            $error = "You have already joined this tournament";
+        } else {
+            // Check if tournament is full
+            if ($tournament['current_participants'] >= $tournament['max_players']) {
+                $error = "This tournament is full";
+            } else {
+                $stmt = $db->prepare("INSERT INTO tournament_participants 
+                                    (tournament_id, user_id, team_name, transaction_id, is_approved) 
+                                    VALUES (?, ?, ?, ?, ?)");
+                
+                $is_approved = $tournament['auto_approval'] ? 1 : 0;
+                
+                if ($stmt->execute([$_GET['id'], $_SESSION['user_id'], $team_name, $transaction_id, $is_approved])) {
+                    $success = "Successfully joined the tournament!";
+                    // Refresh the page to update the participant count and status
+                    header("Location: tournament_details.php?id=" . $_GET['id']);
+                    exit();
+                } else {
+                    $error = "Failed to join tournament. Please try again.";
+                }
+            }
+        }
+    }
+}
+
+// Get participants
+$stmt = $db->prepare("SELECT tp.*, u.username, 
+                    CASE 
+                        WHEN tp.status = 'approved' OR tp.is_approved = 1 THEN 'Approved'
+                        WHEN tp.status = 'rejected' OR tp.is_approved = 0 THEN 'Pending'
+                        ELSE 'Pending'
+                    END as status
+                    FROM tournament_participants tp 
+                    JOIN users u ON tp.user_id = u.user_id 
+                    WHERE tp.tournament_id = ?
+                    ORDER BY CASE 
+                        WHEN tp.status = 'approved' OR tp.is_approved = 1 THEN 1
+                        ELSE 2
+                    END, tp.joined_at ASC");
+$stmt->execute([$_GET['id']]);
+$participants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Check if user has joined the tournament
+$has_joined = false;
+$is_approved = false;
+if (isset($_SESSION['user_id'])) {
+    $stmt = $db->prepare("SELECT tp.is_approved, tp.status 
+                        FROM tournament_participants tp
+                        WHERE tp.tournament_id = ? AND tp.user_id = ?");
+    $stmt->execute([$_GET['id'], $_SESSION['user_id']]);
+    $participant = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($participant) {
+        $has_joined = true;
+        $is_approved = ($participant['status'] === 'approved' || $participant['is_approved'] == 1);
+    }
+}
+?>
 
 <div class="row">
     <div class="col-md-8">
