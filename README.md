@@ -8,7 +8,7 @@ EpicClash is a web-based platform for organizing and participating in gaming tou
 
 ## 🎯 Keywords
 
-gaming tournament platform, esports PHP website, Free Fire tournament app, BGMI online matches, Minecraft event organizer, Among Us PHP site, tournament registration system, paid tournament PHP, online gaming competition, esports platform PHP MySQL
+gaming tournament, gaming tournament platform, esports PHP website, Free Fire tournament app, BGMI online matches, Minecraft event organizer, Among Us PHP site, tournament registration system, paid tournament PHP, online gaming competition, esports platform PHP MySQL
 
 ## 🎮 Features
 
