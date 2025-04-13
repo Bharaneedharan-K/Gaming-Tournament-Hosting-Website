@@ -4,6 +4,7 @@ body {
     color: #ffffff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
 /* Navbar Styles */
 .navbar {
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
@@ -53,14 +54,12 @@ body {
     color: #ffffff;
 }
 
-/* button Styles */
-
+/* Button Styles */
 .btn-primary {
     background-color: #00ff00;
     border-color: #00ff00;
     color: #000000;
 }
-
 
 .btn-primary:hover {
     background-color: #00cc00;
@@ -73,8 +72,197 @@ body {
     border-color: #ffffff;
 }
 
-
 .btn-outline-light:hover {
     background-color: #ffffff;
     color: #000000;
 }
+
+/* Form Styles */
+.form-control {
+    background-color: #3d3d3d;
+    border: 1px solid #4d4d4d;
+    color: #ffffff;
+}
+
+.form-control:focus {
+    background-color: #3d3d3d;
+    border-color: #00ff00;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(0,255,0,0.25);
+}
+
+.form-control::placeholder {
+    color: #cccccc;
+}
+
+.form-label {
+    color: #ffffff;
+}
+
+/* Tournament Card Styles */
+.tournament-card {
+    margin-bottom: 20px;
+}
+
+.tournament-card .card-title {
+    color: #00ff00;
+}
+
+.tournament-info {
+    font-size: 0.9rem;
+    color: #ffffff;
+}
+
+/* Profile Section */
+.profile-section {
+    background-color: #2d2d2d;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+/* Footer Styles */
+footer {
+    margin-top: 50px;
+    background-color: #2d2d2d;
+    color: #ffffff;
+}
+
+.social-links a {
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+    color: #ffffff;
+}
+
+.social-links a:hover {
+    color: #00ff00 !important;
+}
+
+/* Alert Styles */
+.alert {
+    background-color: #3d3d3d;
+    border: 1px solid #4d4d4d;
+    color: #ffffff;
+}
+
+.alert-info {
+    background-color: #2d2d2d;
+    border-color: #00ff00;
+    color: #ffffff;
+}
+
+.alert-success {
+    background-color: #2d2d2d;
+    border-color: #00ff00;
+    color: #ffffff;
+}
+
+.alert-danger {
+    background-color: #2d2d2d;
+    border-color: #ff0000;
+    color: #ffffff;
+}
+
+/* Table Styles */
+.table {
+    color: #ffffff;
+}
+
+.table thead th {
+    background-color: #3d3d3d;
+    border-color: #4d4d4d;
+    color: #ffffff;
+}
+
+.table tbody td {
+    border-color: #4d4d4d;
+    color: #ffffff;
+}
+
+/* List Styles */
+.list-unstyled li {
+    color: #ffffff;
+}
+
+/* Custom Animations */
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px rgba(0,255,0,0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0,255,0,0.8);
+    }
+    100% {
+        box-shadow: 0 0 5px rgba(0,255,0,0.5);
+    }
+}
+
+.glow-effect {
+    animation: glow 2s infinite;
+}
+
+/* Stats Section */
+.stats-card {
+    background-color: #2d2d2d;
+    border: 1px solid #3d3d3d;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.stats-card h5 {
+    color: #00ff00;
+    margin-bottom: 5px;
+}
+
+.stats-card small {
+    color: #ffffff;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .card {
+        margin-bottom: 15px;
+    }
+}
+
+/* Additional Text Colors */
+.text-muted {
+    color: #cccccc !important;
+}
+
+.text-success {
+    color: #00ff00 !important;
+}
+
+.text-danger {
+    color: #ff0000 !important;
+}
+
+.text-warning {
+    color: #ffcc00 !important;
+}
+
+/* Input Group Styles */
+.input-group-text {
+    background-color: #3d3d3d;
+    border-color: #4d4d4d;
+    color: #ffffff;
+}
+
+/* Select Styles */
+select.form-control {
+    background-color: #3d3d3d;
+    color: #ffffff;
+}
+
+select.form-control option {
+    background-color: #3d3d3d;
+    color: #ffffff;
+} 
